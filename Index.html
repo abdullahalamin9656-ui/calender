@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trikal – 4D Multilingual Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#e0f2fe;--bg2:#fce7f3;--bg3:#ede9fe;--card:rgba(255,255,255,.62);--bd:rgba(255,255,255,.85);--tx:#1e1b4b;--mu:#64748b;--cell:rgba(255,255,255,.72);--sh:rgba(80,60,160,.2);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg1:#0f172a;--bg2:#2e1065;--bg3:#083344;--card:rgba(30,27,75,.55);--bd:rgba(255,255,255,.14);--tx:#e0e7ff;--mu:#a5b4fc;--cell:rgba(255,255,255,.07);--sh:rgba(0,0,0,.45)}}
+:root[data-theme=dark]{--bg1:#0f172a;--bg2:#2e1065;--bg3:#083344;--card:rgba(30,27,75,.55);--bd:rgba(255,255,255,.14);--tx:#e0e7ff;--mu:#a5b4fc;--cell:rgba(255,255,255,.07);--sh:rgba(0,0,0,.45)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Poppins','Noto Sans Bengali','Noto Naskh Arabic',system-ui,sans-serif;color:var(--tx);min-height:100vh;
+background:linear-gradient(120deg,var(--bg1),var(--bg2),var(--bg3),var(--bg1));background-size:300% 300%;animation:bg 20s ease infinite}
+@keyframes bg{50%{background-position:100% 50%}}
+header{display:flex;align-items:center;gap:10px;max-width:1200px;margin:auto;padding:12px 14px 4px}
+.logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#6366f1,#ec4899,#f59e0b);display:grid;place-items:center;font-size:24px;box-shadow:0 5px 0 #4338ca,0 10px 18px var(--sh);transform:rotate(-6deg)}
+h1{font-size:1.2rem;margin:0;flex:1}h1 small{display:block;font-size:.68rem;font-weight:400;color:var(--mu)}
+.app{display:grid;grid-template-columns:190px 1fr;gap:14px;max-width:1200px;margin:auto;padding:10px 14px 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:16px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 14px 34px var(--sh);margin-bottom:14px}
+.card h2{margin:0 0 10px;font-size:1.05rem}
+nav{display:flex;flex-direction:column;gap:10px;align-self:start;position:sticky;top:10px}
+nav .b{justify-content:flex-start}
+.b{--c1:#818cf8;--c2:#6366f1;--c3:#3730a3;font:600 .85rem inherit;font-family:inherit;color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px;justify-content:center;padding:9px 13px;border-radius:14px;border:2px solid rgba(255,255,255,.55);
+background:linear-gradient(180deg,var(--c1),var(--c2));box-shadow:0 5px 0 var(--c3),0 10px 16px var(--sh),0 0 12px var(--c1);transition:transform .15s,box-shadow .15s,filter .15s}
+.b:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 7px 0 var(--c3),0 14px 20px var(--sh),0 0 18px var(--c1)}
+.b:active{transform:translateY(4px);box-shadow:0 1px 0 var(--c3),0 3px 6px var(--sh)}
+.b.on{outline:3px solid #fff;outline-offset:-6px}
+.o{--c1:#fbbf24;--c2:#f97316;--c3:#9a3412}.g{--c1:#34d399;--c2:#10b981;--c3:#047857}.r{--c1:#fb7185;--c2:#e11d48;--c3:#9f1239}.p{--c1:#c084fc;--c2:#9333ea;--c3:#6b21a8}.k{--c1:#475569;--c2:#1e293b;--c3:#020617}.s{--c1:#38bdf8;--c2:#0284c7;--c3:#075985}
+select.b,input.b{appearance:none;-webkit-appearance:none;padding-right:12px}select.b option{color:#000}
+input.b{width:92px;text-align:center}input.b::placeholder{color:#fffa}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.ttl{font-size:1.5rem;font-weight:700;margin:6px 0 2px}.sub{color:var(--mu);font-size:.8rem;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;perspective:900px}
+.wd{text-align:center;font-weight:600;font-size:.75rem;color:var(--mu);padding:4px 0}
+.cell{position:relative;min-height:62px;border-radius:14px;border:1px solid var(--bd);background:var(--cell);color:var(--tx);font-family:inherit;cursor:pointer;padding:5px 3px 14px;display:flex;flex-direction:column;align-items:center;gap:1px;box-shadow:0 3px 0 rgba(99,102,241,.25);transition:transform .15s}
+.cell:hover{transform:translateY(-3px) rotateX(6deg);box-shadow:0 8px 14px var(--sh)}
+.cell b{font-size:1.05rem}.cell small{font-size:.6rem;color:var(--mu);line-height:1.15}
+.cell.fri b{color:#e11d48}
+.cell.today{background:linear-gradient(135deg,#f97316,#ec4899);color:#fff;border-color:#fff;transform:translateY(-4px) rotateX(10deg);box-shadow:0 7px 0 #9d174d,0 14px 22px rgba(236,72,153,.55);animation:glow 2s ease-in-out infinite}
+.cell.today small,.cell.today.fri b{color:#fff}
+@keyframes glow{50%{box-shadow:0 7px 0 #9d174d,0 14px 34px rgba(249,115,22,.9)}}
+.dots{position:absolute;bottom:3px;display:flex;gap:3px}.dots i{width:6px;height:6px;border-radius:50%;display:block}
+.cell.pad{visibility:hidden}
+.hero{position:relative;overflow:hidden;min-height:230px}
+.cubes{position:absolute;right:10px;top:10px;perspective:700px;width:150px;height:170px;pointer-events:none}
+.cube{position:absolute;width:64px;height:64px;border-radius:16px;display:grid;place-items:center;font-size:1.7rem;font-weight:700;color:#fff;animation:fl 6s ease-in-out infinite;box-shadow:0 8px 0 rgba(0,0,0,.22),0 16px 24px var(--sh)}
+.c1{background:linear-gradient(135deg,#6366f1,#a855f7);left:0;top:10px}.c2{background:linear-gradient(135deg,#f97316,#ec4899);left:60px;top:60px;animation-delay:-2s}.c3{background:linear-gradient(135deg,#10b981,#06b6d4);left:12px;top:100px;animation-delay:-4s}
+@keyframes fl{50%{transform:translateY(-14px) rotateX(18deg) rotateY(-22deg)}}
+.big{font-size:3.4rem;font-weight:700;line-height:1;margin-top:4px}.clock{font-size:1.6rem;font-variant-numeric:tabular-nums;font-weight:600;margin:8px 0;color:#6366f1}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.mini{border-radius:16px;padding:12px;background:var(--cell);border:1px solid var(--bd);box-shadow:0 4px 0 rgba(99,102,241,.2)}
+.mini h3{margin:0 0 4px;font-size:.78rem;color:var(--mu);font-weight:600}.mini div{font-size:1.02rem;font-weight:600}
+.cd{font-size:2rem;font-weight:700;color:#e11d48}
+.row{display:flex;gap:10px;align-items:center;padding:10px;border-radius:14px;background:var(--cell);margin-bottom:8px;cursor:pointer;border:1px solid var(--bd)}
+.row .dot{width:12px;height:12px;border-radius:50%;flex:none}.row small{color:var(--mu);display:block}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding:10px}
+.ov .card{background:var(--bg1);width:min(560px,100%);max-height:88vh;overflow:auto;margin:0}
+:root[data-theme=dark] .ov .card{background:#1e1b4b}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .ov .card{background:#1e1b4b}}
+.f{display:grid;gap:8px;margin-top:8px}.f input,.f select,.f textarea,.sr{font:inherit;padding:10px;border-radius:12px;border:1px solid var(--bd);background:var(--cell);color:var(--tx);width:100%}
+.sr{margin-bottom:10px}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1e1b4b;color:#fff;padding:10px 16px;border-radius:14px;z-index:99;display:none;max-width:90%}
+@media(max-width:820px){.app{grid-template-columns:1fr;padding-bottom:96px}
+nav{position:fixed;left:0;right:0;bottom:0;top:auto;flex-direction:row;gap:5px;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:20;border-top:1px solid var(--bd)}
+nav .b{flex:1;flex-direction:column;gap:0;padding:6px 2px;font-size:.62rem;border-radius:12px;justify-content:center}nav .b span{font-size:1.1rem}
+.big{font-size:2.6rem}.cell{min-height:54px}.cell b{font-size:.95rem}.cubes{transform:scale(.7);transform-origin:top right}}
+@media(max-width:480px){.cell small{font-size:.52rem}.ttl{font-size:1.25rem}.b{padding:8px 10px;font-size:.78rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+@media print{header,nav,.bar,.tabs,.sr,#toast,.noprint{display:none!important}.app{display:block}body{background:#fff;color:#000;animation:none}.card{box-shadow:none;backdrop-filter:none;background:#fff}.cell{box-shadow:none;transform:none!important;animation:none!important}}
+</style></head><body>
+<header><div class="logo">🗓️</div><h1>Trikal Calendar<small>English · বাংলা · العربية</small></h1>
+<select class="b s" id="lang" data-ch="lang" aria-label="Language"><option value="en">English</option><option value="bn">বাংলা</option><option value="ar">العربية</option></select>
+<button class="b k" id="thm" data-a="toggle"></button></header>
+<div class="app"><nav id="nav"></nav><main id="main"></main></div><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nd=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);
+const add=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n,12);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const pIso=s=>{const p=s.split('-');return new Date(+p[0],p[1]-1,+p[2],12)};
+const diff=(a,b)=>Math.round((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-Date.UTC(a.getFullYear(),a.getMonth(),a.getDate()))/864e5);
+const leap=y=>y%4==0&&(y%100!=0||y%400==0);
+const ld=(k,f)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?f:v}catch(e){return f}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const bnD=s=>String(s).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]),arD=s=>String(s).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+const EN_M=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const BN_M=['বৈশাখ','জ্যৈষ্ঠ','আষাঢ়','শ্রাবণ','ভাদ্র','আশ্বিন','কার্তিক','অগ্রহায়ণ','পৌষ','মাঘ','ফাল্গুন','চৈত্র'];
+const AR_M=['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+const AR_E=['Muharram','Safar','Rabi I','Rabi II','Jumada I','Jumada II','Rajab','Sha\'ban','Ramadan','Shawwal','Dhul Qi\'dah','Dhul Hijjah'];
+const WD={en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],bn:['রবি','সোম','মঙ্গল','বুধ','বৃহঃ','শুক্র','শনি'],hj:['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت']};
+const WF={en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],bn:['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],hj:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']};
+const T={en:{home:'Home',calendar:'Calendar',holidays:'Holidays',islamic:'Islamic Dates',bengali:'Bengali Dates',settings:'Settings',today:'Today',prev:'Previous Month',next:'Next Month',dark:'Dark Mode',light:'Light Mode',print:'Print',pdf:'Download PDF',month:'Select Month',year:'Select Year',search:'Search a date (YYYY-MM-DD) or event…'},
+bn:{home:'হোম',calendar:'ক্যালেন্ডার',holidays:'ছুটি',islamic:'ইসলামি তারিখ',bengali:'বাংলা তারিখ',settings:'সেটিংস',today:'আজ',prev:'আগের মাস',next:'পরের মাস',dark:'ডার্ক মোড',light:'লাইট মোড',print:'প্রিন্ট',pdf:'পিডিএফ ডাউনলোড',month:'মাস বাছাই',year:'সাল বাছাই',search:'তারিখ (YYYY-MM-DD) বা ইভেন্ট খুঁজুন…'},
+ar:{home:'الرئيسية',calendar:'التقويم',holidays:'العطلات',islamic:'التواريخ الإسلامية',bengali:'التواريخ البنغالية',settings:'الإعدادات',today:'اليوم',prev:'الشهر السابق',next:'الشهر التالي',dark:'الوضع الداكن',light:'الوضع الفاتح',print:'طباعة',pdf:'تنزيل PDF',month:'اختر الشهر',year:'اختر السنة',search:'ابحث عن تاريخ أو حدث…'}};
+const CATS={personal:['Personal','#3b82f6'],work:['Work','#8b5cf6'],family:['Family','#22c55e'],important:['Important','#ef4444'],other:['Other','#f97316']};
+const HC_={nat:'#ef4444',isl:'#10b981',bn:'#f59e0b',bid:'#14b8a6'};
+let S=Object.assign({cal:'en',view:'home',lang:'en',theme:null,method:'islamic-umalqura',adj:0},ld('trikal-s',{}));
+S.anchor=nd(new Date());S.hy=new Date().getFullYear();S.q='';
+let EV=ld('trikal-ev',[]);
+const t=k=>(T[S.lang]||T.en)[k];
+const saveS=()=>sv('trikal-s',{cal:S.cal,lang:S.lang,theme:S.theme,method:S.method,adj:S.adj});
+/* ---- calendar conversions ---- */
+const enOf=d=>({y:d.getFullYear(),m:d.getMonth(),d:d.getDate()});
+const bnLens=gy=>[31,31,31,31,31,30,30,30,30,30,leap(gy+1)?31:30,30];
+function bnOf(d){let gy=d.getFullYear(),s=new Date(gy,3,14,12);if(d<s){gy--;s=new Date(gy,3,14,12)}
+ let n=diff(s,d),L=bnLens(gy),m=0;while(n>=L[m]){n-=L[m];m++}return{y:gy-593,m,d:n+1}}
+let HF,HCa={};
+function hjOf(d){const k=iso(d)+S.method+S.adj;if(HCa[k])return HCa[k];
+ if(!HF||HF.m!==S.method)HF={m:S.method,f:new Intl.DateTimeFormat('en-u-ca-'+S.method+'-nu-latn',{day:'numeric',month:'numeric',year:'numeric'})};
+ const o={};HF.f.formatToParts(add(d,S.adj)).forEach(p=>{if(p.type==='day'||p.type==='month'||p.type==='year')o[p.type]=parseInt(p.value)});
+ return HCa[k]={y:o.year,m:o.month-1,d:o.day}}
+const CAL={en:{of:enOf,mn:i=>EN_M[i],dig:x=>x,yr:y=>y},bn:{of:bnOf,mn:i=>BN_M[i],dig:bnD,yr:y=>bnD(y)+' বঙ্গাব্দ'},hj:{of:hjOf,mn:i=>AR_M[i],dig:arD,yr:y=>arD(y)+' هـ'}};
+const fmt=(k,o)=>CAL[k].dig(o.d)+' '+CAL[k].mn(o.m)+(k==='hj'?' ('+AR_E[o.m]+')':'')+' '+CAL[k].yr(o.y);
+const mStart=d=>add(d,-(CAL[S.cal].of(d).d-1));
+function mLen(s){const f=CAL[S.cal].of,m=f(s).m;let n=27;while(n<32&&f(add(s,n)).m===m)n++;return n}
+function move(k){const s=mStart(S.anchor);S.anchor=k>0?add(s,mLen(s)):mStart(add(s,-1))}
+function goTo(y,m){const f=CAL[S.cal].of;let c=f(S.anchor);S.anchor=add(S.anchor,Math.round(((y-c.y)*12+(m-c.m))*(S.cal==='hj'?29.53:30.44)));
+ for(let i=0;i<80;i++){c=f(S.anchor);const dl=(c.y-y)*12+(c.m-m);if(!dl)break;move(dl>0?-1:1)}S.anchor=mStart(S.anchor)}
+/* ---- holidays ---- */
+const HE={'0-1':"New Year's Day",'1-21':'International Mother Language Day','2-17':"Sheikh Mujib's Birthday & Children's Day",'2-26':'Independence Day','4-1':'May Day','7-5':'July Mass-Uprising Day','11-16':'Victory Day','11-25':'Christmas Day'};
+const HB={'0-1':'Pohela Boishakh (Bengali New Year)','0-25':'Rabindra Jayanti','1-11':'Nazrul Jayanti','7-1':'Nabanna','10-1':'Pohela Falgun','11-30':'Choitro Sankranti'};
+const HH={'0-1':'Islamic New Year','0-10':'Ashura','2-12':'Eid-e-Miladunnabi','6-27':'Shab-e-Meraj','7-15':'Shab-e-Barat','8-1':'Ramadan begins','8-27':'Laylat al-Qadr (27th night)','9-1':'Eid-ul-Fitr','11-9':'Arafah Day','11-10':'Eid-ul-Adha'};
+let HD={};
+function hdays(d){const k=iso(d)+S.method+S.adj;if(HD[k])return HD[k];const r=[],e=enOf(d),b=bnOf(d),h=hjOf(d);
+ let x;if(x=HE[e.m+'-'+e.d])r.push({n:x,t:'nat'});if(x=HB[b.m+'-'+b.d])r.push({n:x,t:'bn'});if(x=HH[h.m+'-'+h.d])r.push({n:x,t:'isl'});
+ if(h.d>=13&&h.d<=15)r.push({n:'Ayyam al-Bid (white day '+(h.d-12)+')',t:'bid'});return HD[k]=r}
+const evOn=s=>EV.filter(e=>e.date===s);
+function nextHj(m,d){const td=nd(new Date());for(let i=0;i<400;i++){const x=hjOf(add(td,i));if(x.m===m&&x.d===d)return i}return null}
+/* ---- UI helpers ---- */
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2800)}
+function applyTheme(){const r=document.documentElement;if(S.theme)r.dataset.theme=S.theme;const dk=S.theme?S.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;$('#thm').textContent=dk?'☀️ '+t('light'):'🌙 '+t('dark')}
+function nav(){const v=[['home','🏠'],['calendar','📅'],['holidays','🎉'],['islamic','🌙'],['bengali','🌾'],['settings','⚙️']];
+ $('#nav').innerHTML=v.map(([k,i],j)=>`<button class="b ${['','','o','g','r','k'][j]||'s'} ${S.view===k?'on':''}" data-a="view" data-v="${k}"><span>${i}</span>${t(k)}</button>`).join('')}
+function dateCards(d){return`<div class="g3"><div class="mini"><h3>English</h3><div>${fmt('en',enOf(d))}</div></div><div class="mini"><h3>বাংলা</h3><div>${fmt('bn',bnOf(d))}</div></div><div class="mini"><h3>العربية</h3><div dir="rtl" style="text-align:left">${fmt('hj',hjOf(d))}</div></div></div>`}
+function listRow(d,n,c,ex){const e=enOf(d);return`<div class="row" data-a="day" data-d="${iso(d)}"><span class="dot" style="background:${c}"></span><div><b>${esc(n)}</b><small>${e.d} ${EN_M[e.m]} ${e.y} · ${WF.en[d.getDay()]} · ${fmt('hj',hjOf(d))} · ${fmt('bn',bnOf(d))}</small>${ex||''}</div></div>`}
+/* ---- views ---- */
+function home(){const d=nd(new Date()),e=enOf(d),b=bnOf(d),h=hjOf(d);
+ const cds=[['Ramadan',8,1],['Eid-ul-Fitr',9,1],['Eid-ul-Adha',11,10]].map(([n,m,dd])=>{const x=nextHj(m,dd);return`<div class="mini"><h3>${n}</h3><div class="cd">${x==null?'–':x}</div><small style="color:var(--mu)">days to go (approx.)</small></div>`}).join('');
+ const up=EV.filter(x=>x.date>=iso(d)).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||''))).slice(0,5);
+ return`<div class="card hero"><div class="cubes"><div class="cube c1">${bnD(b.d)}</div><div class="cube c2">${e.d}</div><div class="cube c3">${arD(h.d)}</div></div>
+ <div class="sub">${WF.en[d.getDay()]} · ${WF.bn[d.getDay()]} · ${WF.hj[d.getDay()]}</div><div class="big">${e.d} ${EN_M[e.m].slice(0,3)}</div><div style="font-size:1.1rem;font-weight:600">${e.y}</div>
+ <div class="clock" id="clk"></div><button class="b o" data-a="today">📍 ${t('today')}</button> <button class="b p" data-a="view" data-v="calendar">📅 ${t('calendar')}</button></div>
+ <div class="card"><h2>Today in three calendars</h2>${dateCards(d)}</div>
+ <div class="card"><h2>Countdown</h2><div class="g3">${cds}</div></div>
+ <div class="card"><h2>Upcoming events</h2>${up.length?up.map(x=>listRow(pIso(x.date),x.title,CATS[x.cat][1],x.time?`<small>${x.time}</small>`:'')).join(''):'<div class="sub">No events yet. Open the calendar and tap a date to add one.</div>'}</div>`}
+function calView(){const c=CAL[S.cal],s=mStart(S.anchor),len=mLen(s),o=c.of(s),td=iso(new Date());
+ const others=['en','bn','hj'].filter(k=>k!==S.cal).map(k=>{const f=CAL[k].of(s),l=CAL[k].of(add(s,len-1));return`${CAL[k].mn(f.m)}${f.m!==l.m?' – '+CAL[k].mn(l.m):''} ${CAL[k].yr(l.y)}`}).join('  |  ');
+ let g=WD[S.cal].map(x=>`<div class="wd">${x}</div>`).join('');
+ for(let i=0;i<s.getDay();i++)g+='<div class="cell pad"></div>';
+ for(let i=0;i<len;i++){const d=add(s,i),k=iso(d),p=c.of(d),hs=hdays(d),es=evOn(k);
+  const sec=['en','bn','hj'].filter(x=>x!==S.cal).map(x=>{const q=CAL[x].of(d);return`<small>${CAL[x].dig(q.d)}${q.d===1?' '+CAL[x].mn(q.m):''}</small>`}).join('');
+  g+=`<button class="cell ${k===td?'today':''} ${d.getDay()===5?'fri':''}" data-a="day" data-d="${k}"><b>${c.dig(p.d)}</b>${sec}<span class="dots">${hs.slice(0,2).map(h=>`<i style="background:${HC_[h.t]}"></i>`).join('')}${es.slice(0,2).map(x=>`<i style="background:${CATS[x.cat][1]};border-radius:2px"></i>`).join('')}</span></button>`}
+ const tab=(k,l,cl)=>`<button class="b ${cl} ${S.cal===k?'on':''}" data-a="cal" data-k="${k}">${l}</button>`;
+ return`<div class="card"><div class="tabs">${tab('en','English Calendar','s')}${tab('bn','বাংলা ক্যালেন্ডার','o')}${tab('hj','Arabic Calendar','g')}</div>
+ <div class="bar"><button class="b p" data-a="prev">◀ ${t('prev')}</button><select class="b s" data-ch="month" aria-label="${t('month')}">${Array.from({length:12},(_,i)=>`<option value="${i}" ${i===o.m?'selected':''}>${c.mn(i)}</option>`).join('')}</select>
+ <input class="b s" type="number" min="1000" max="9000" value="${o.y}" data-ch="year" aria-label="${t('year')}" placeholder="${t('year')}"><button class="b p" data-a="next">${t('next')} ▶</button><button class="b o" data-a="today">📍 ${t('today')}</button>
+ <button class="b g" data-a="print">🖨 ${t('print')}</button><button class="b r" data-a="pdf">📄 ${t('pdf')}</button></div>
+ <div class="ttl">${c.mn(o.m)}${S.cal==='hj'?' · '+AR_E[o.m]:''} ${c.yr(o.y)}</div><div class="sub">${others}</div>
+ <input class="sr" id="q" placeholder="${t('search')}" value="${esc(S.q)}" data-ch="q"><div id="res">${search()}</div><div class="grid">${g}</div></div>`}
+function search(){const q=S.q.trim().toLowerCase();if(!q)return'';
+ if(/^\d{4}-\d{2}-\d{2}$/.test(q)){const d=pIso(q);return isNaN(d)?'':listRow(d,'Open this date','#6366f1')}
+ const y=S.anchor.getFullYear(),r=[];EV.forEach(e=>{if((e.title+' '+(e.note||'')).toLowerCase().includes(q))r.push(listRow(pIso(e.date),e.title,CATS[e.cat][1]))});
+ for(let i=0;i<366;i++){const d=new Date(y,0,1+i,12);if(d.getFullYear()!==y)break;hdays(d).forEach(h=>{if(h.n.toLowerCase().includes(q))r.push(listRow(d,h.n,HC_[h.t]))})}
+ return r.slice(0,12).join('')||'<div class="sub">No matches in events or in this year\'s holidays.</div>'}
+function holView(kind){const y=S.hy,r=[];for(let i=0;i<366;i++){const d=new Date(y,0,1+i,12);if(d.getFullYear()!==y)break;
+  hdays(d).forEach(h=>{if(kind==='all'?h.t!=='bid':kind==='isl'?(h.t==='isl'||h.t==='bid'):h.t==='bn')r.push(listRow(d,h.n,HC_[h.t]))})}
+ const ttl={all:'Holidays & special days',isl:'Islamic important dates',bn:'Bengali festivals'}[kind];
+ return`<div class="card"><h2>${ttl} – ${y}</h2><div class="bar"><button class="b p" data-a="yr" data-n="-1">◀ ${y-1}</button><button class="b p" data-a="yr" data-n="1">${y+1} ▶</button></div>${r.join('')||'<div class="sub">Nothing listed.</div>'}
+ <div class="sub">Islamic dates follow the selected calculation method; actual dates in Bangladesh depend on moon sighting (adjust in Settings). Government holiday lists for lunar and religious days of other faiths are announced yearly and are not all included.</div></div>`}
+function setView(){const b=(a,l,c,x='')=>`<button class="b ${c}" data-a="${a}" ${x}>${l}</button>`;
+ return`<div class="card"><h2>${t('settings')}</h2><div class="bar">${b('theme','🌙 '+t('dark'),'k','data-m="dark"')}${b('theme','☀️ '+t('light'),'o','data-m="light"')}</div>
+ <h2>Hijri calculation</h2><div class="bar"><select class="b g" data-ch="method"><option value="islamic-umalqura" ${S.method==='islamic-umalqura'?'selected':''}>Umm al-Qura (Saudi)</option><option value="islamic-civil" ${S.method==='islamic-civil'?'selected':''}>Civil (tabular)</option></select>
+ ${b('adj','−1 day','r','data-n="-1"')}<b style="min-width:70px;text-align:center">${S.adj>0?'+':''}${S.adj} day</b>${b('adj','+1 day','g','data-n="1"')}</div>
+ <h2>Events & reminders</h2><div class="bar">${b('notif','🔔 Enable notifications','p')}${b('export','📤 Export events','s')}${b('clear','🗑 Clear all events','r')}</div>
+ <div class="sub">Events are stored in this browser (localStorage). Reminders fire while the page is open. Bengali dates follow the Bangladesh revised calendar (new year on 14 April).</div></div>`}
+function render(){nav();applyTheme();const m=$('#main');
+ m.innerHTML={home:home,calendar:calView,holidays:()=>holView('all'),islamic:()=>holView('isl'),bengali:()=>holView('bn'),settings:setView}[S.view]();tick()}
+function tick(){const c=$('#clk');if(c)c.textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+/* ---- day dialog ---- */
+function openDay(k){const d=pIso(k),hs=hdays(d),es=evOn(k);
+ const el=document.createElement('div');el.className='ov';el.id='ov';
+ el.innerHTML=`<div class="card"><div class="bar"><h2 style="flex:1;margin:0">${WF.en[d.getDay()]} · ${WF.bn[d.getDay()]} · ${WF.hj[d.getDay()]}</h2><button class="b r" data-a="close">✕</button></div>${dateCards(d)}
+ ${hs.map(h=>`<div class="row" style="cursor:default"><span class="dot" style="background:${HC_[h.t]}"></span><b>${esc(h.n)}</b></div>`).join('')}
+ <h2 style="margin-top:12px">Events</h2>${es.map(e=>`<div class="row" style="cursor:default"><span class="dot" style="background:${CATS[e.cat][1]}"></span><div style="flex:1"><b>${esc(e.title)}</b><small>${e.time||''} ${e.remind?'🔔':''} ${esc(e.note||'')}</small></div><button class="b r" data-a="delev" data-id="${e.id}">✕</button></div>`).join('')||'<div class="sub">No events on this day.</div>'}
+ <div class="f"><input id="et" placeholder="Event title"><input id="etm" type="time"><select id="ec">${Object.entries(CATS).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('')}</select><textarea id="en" rows="2" placeholder="Notes"></textarea>
+ <label><input id="er" type="checkbox" style="width:auto"> Remind me</label><div class="bar"><button class="b g" data-a="addev" data-d="${k}">＋ Add event</button><button class="b s" data-a="share" data-d="${k}">🔗 Share date</button></div></div></div>`;
+ document.body.appendChild(el)}
+const closeDay=()=>{const o=$('#ov');if(o)o.remove()};
+function shareText(k){const d=pIso(k);return`${WF.en[d.getDay()]}, ${fmt('en',enOf(d))}\n${fmt('bn',bnOf(d))}\n${fmt('hj',hjOf(d))}`+evOn(k).map(e=>'\n• '+e.title).join('')}
+function copy(txt,msg){const f=()=>{const a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()};
+ (navigator.clipboard?navigator.clipboard.writeText(txt).catch(f):Promise.resolve(f())).then(()=>toast(msg||'Copied'))}
+function act(a,e){const D=e.dataset;
+ if(a==='view'){S.view=D.v;render()}
+ else if(a==='cal'){S.cal=D.k;S.anchor=mStart(S.anchor);saveS();render()}
+ else if(a==='prev'){move(-1);render()}else if(a==='next'){move(1);render()}
+ else if(a==='today'){S.anchor=nd(new Date());S.hy=S.anchor.getFullYear();if(S.view!=='calendar')S.view='calendar';render()}
+ else if(a==='day')openDay(D.d);else if(a==='close')closeDay();
+ else if(a==='toggle'){const dk=S.theme?S.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;S.theme=dk?'light':'dark';saveS();applyTheme()}
+ else if(a==='theme'){S.theme=D.m;saveS();applyTheme()}
+ else if(a==='yr'){S.hy+=+D.n;render()}
+ else if(a==='adj'){S.adj=Math.max(-3,Math.min(3,S.adj+ +D.n));saveS();render()}
+ else if(a==='print')window.print();
+ else if(a==='pdf'){toast('In the print dialog, choose “Save as PDF”.');setTimeout(()=>window.print(),600)}
+ else if(a==='addev'){const ti=$('#et').value.trim();if(!ti){toast('Enter an event title');return}
+  EV.push({id:Date.now().toString(36),date:D.d,title:ti,time:$('#etm').value,cat:$('#ec').value,note:$('#en').value,remind:$('#er').checked,fired:false});sv('trikal-ev',EV);closeDay();render();toast('Event added')}
+ else if(a==='delev'){EV=EV.filter(x=>x.id!==D.id);sv('trikal-ev',EV);closeDay();render();toast('Event deleted')}
+ else if(a==='share'){const x=shareText(D.d);if(navigator.share)navigator.share({text:x}).catch(()=>{});else copy(x,'Date copied to clipboard')}
+ else if(a==='notif'){if(!('Notification' in window))toast('Notifications are not supported here');else Notification.requestPermission().then(p=>toast(p==='granted'?'Notifications enabled':'Permission not granted'))}
+ else if(a==='export'){closeDay();const el=document.createElement('div');el.className='ov';el.id='ov';el.innerHTML=`<div class="card"><div class="bar"><h2 style="flex:1;margin:0">Export events (JSON)</h2><button class="b r" data-a="close">✕</button></div><textarea class="sr" id="ex" rows="10" readonly>${esc(JSON.stringify(EV,null,2))}</textarea><button class="b g" data-a="copyex">Copy to clipboard</button></div>`;document.body.appendChild(el)}
+ else if(a==='copyex')copy($('#ex').value,'Events copied');
+ else if(a==='clear'){if(confirm('Delete all events?')){EV=[];sv('trikal-ev',EV);toast('All events cleared')}}}
+document.addEventListener('click',e=>{const x=e.target.closest('[data-a]');if(x){act(x.dataset.a,x);return}if(e.target.id==='ov')closeDay()});
+document.addEventListener('change',e=>{const x=e.target.closest('[data-ch]');if(!x)return;const k=x.dataset.ch,c=CAL[S.cal],o=c.of(S.anchor);
+ if(k==='lang'){S.lang=x.value;document.documentElement.lang=x.value;saveS();render()}
+ else if(k==='month'){goTo(o.y,+x.value);render()}
+ else if(k==='year'){const y=Math.max(1000,Math.min(9000,+x.value||o.y));goTo(y,o.m);render()}
+ else if(k==='method'){S.method=x.value;saveS();render()}});
+document.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;$('#res').innerHTML=search()}});
+setInterval(()=>{tick();const n=new Date(),k=iso(n),hm=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');let ch=false;
+ EV.forEach(x=>{if(x.remind&&!x.fired&&x.date===k&&(!x.time||x.time<=hm)){x.fired=true;ch=true;toast('🔔 '+x.title);try{if(Notification.permission==='granted')new Notification(x.title,{body:x.note||x.time||''})}catch(_){}}});if(ch)sv('trikal-ev',EV)},1000);
+$('#lang').value=S.lang;document.documentElement.lang=S.lang;render();
+</script></body></html>
